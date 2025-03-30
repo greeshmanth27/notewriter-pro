@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { auth, googleProvider } from "@/lib/firebase";
 import { toast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface AuthContextType {
   user: User | null;
@@ -40,13 +41,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         title: "Welcome!",
         description: "You've successfully signed in."
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error signing in with Google:", error);
-      toast({
-        title: "Sign In Failed",
-        description: "There was an issue signing in with Google.",
-        variant: "destructive"
-      });
+      
+      // Add specific error message for unauthorized domain
+      if (error.code === 'auth/unauthorized-domain') {
+        toast({
+          title: "Authentication Error",
+          description: "This preview domain is not authorized for authentication. Please use a registered domain or follow the development instructions below.",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Sign In Failed",
+          description: "There was an issue signing in with Google.",
+          variant: "destructive"
+        });
+      }
     } finally {
       setLoading(false);
     }

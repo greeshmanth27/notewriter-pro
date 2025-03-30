@@ -1,9 +1,9 @@
-
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Edit, Save, FileText } from "lucide-react";
+import { Edit, Save, FileText, ExternalLink } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const Index = () => {
   const { user, signInWithGoogle } = useAuth();
@@ -13,6 +13,16 @@ const Index = () => {
       <Navbar />
       
       <main className="flex-1 container mx-auto px-4 py-8">
+        <Alert className="mb-6 border-amber-500">
+          <AlertTitle className="text-amber-600 font-medium flex items-center gap-2">
+            <ExternalLink size={16} /> Preview Domain Limited Functionality
+          </AlertTitle>
+          <AlertDescription className="text-sm">
+            Authentication requires domain verification. To fully test the app, use localhost or add your preview domain 
+            in Firebase Console under Authentication &gt; Settings &gt; Authorized domains.
+          </AlertDescription>
+        </Alert>
+        
         <section className="max-w-4xl mx-auto text-center py-12 md:py-20">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in">
             Write Beautiful Letters <br className="hidden md:block" />
